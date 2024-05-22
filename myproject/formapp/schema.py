@@ -56,7 +56,10 @@ class UpdateFormDataMutation(graphene.Mutation):
             form_data.fee = fee
             form_data.rate = rate
             form_data.covlim = covlim
-            form_data.minprem = minprem
+            if minprem == -1: # will pass this if isminprem is false
+                form_data.minprem = None
+            else:
+                form_data.minprem = minprem
             form_data.save()
             return UpdateFormDataMutation(form_data=form_data)
         except FormData.DoesNotExist:
